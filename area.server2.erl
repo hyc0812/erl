@@ -1,22 +1,22 @@
--module(area_server1).
+-module(area_server2).
 -export([loop/0, rpc/2]).
 
 rpc(Pid, Request) ->
     Pid ! {self(), Request},
     receive
-        Response ->
+        {Pid, Response} ->
             Response
     end.
 
 loop() ->
     receive
         {From, {rectangle, Width, Ht}} ->
-            From ! Width * Ht,
+            From ! {self(), Width * Ht},
             loop();
         {From, {circle, R}} ->
-            From ! 3.1415926 * R * R,
+            From ! {self(), 3.1415926 * R * R},
             loop();
         {From, Other} ->
-            From ! {error, Other},
+            From ! {self(), {error, Other}},
             loop()
     end.

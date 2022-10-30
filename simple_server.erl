@@ -13,6 +13,8 @@ rpc(Pid, Request) ->
     receive
         {Pid, Response} ->
             Response
+    after 100000 ->
+        true
     end.
 
 loop() ->

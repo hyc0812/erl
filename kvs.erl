@@ -1,11 +1,11 @@
 -module(kvs).
--export([start/0, store/2, loopup/1]).
+-export([start/0, store/2, lookup/1]).
 
 start() -> register(kvs, spawn(fun() -> loop() end)).
 
 store(Key, Value) -> rpc({store, Key, Value}).
 
-loopup(Key) -> rpc({loopup, Key}).
+lookup(Key) -> rpc({loopup, Key}).
 
 rpc(Q) ->
     kvs ! {self(), Q},
